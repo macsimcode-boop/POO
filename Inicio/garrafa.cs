@@ -67,49 +67,55 @@ class Program
 {
     static void Main()
     {
-        Garrafa garrafa = new Garrafa("Água", 500);
+        Garrafa garrafa = new Garrafa("Água", 500);     
 
-        Console.WriteLine("Deseja encher ou beber? Qual o valor? (ex: beber 20)");
-        string input = Console.ReadLine();
-
-        try                                                     
+        while (true)                                    
         {
-            string[] partes = input.Split(' ');
-            double valor = double.Parse(partes[1]);              
+            Console.WriteLine("Deseja encher ou beber? Qual o valor? (ex: beber 20, ou sair)");
+            string input = Console.ReadLine();
 
-            if (partes[0] == "encher")
+            if (input == "sair")                     
             {
-                garrafa.Encher(valor);
+                break;
             }
-            else if (partes[0] == "beber")
+
+            try
             {
-                if (!garrafa.Beber(valor))
+                string[] partes = input.Split(' ');
+                double valor = double.Parse(partes[1]);
+
+                if (partes[0] == "encher")
                 {
-                    Console.WriteLine("Não há água suficiente ou o valor é inválido.");
+                    garrafa.Encher(valor);
+                }
+                else if (partes[0] == "beber")
+                {
+                    if (!garrafa.Beber(valor))
+                    {
+                        Console.WriteLine("Não há água suficiente ou o valor é inválido.");
+                    }
+                }
+                else
+                {
+                    Console.WriteLine("Formato inválido");
+                    continue;                            
+                }
+
+                garrafa.MostrarInfo();
+
+                if (garrafa.EstaVazia())
+                {
+                    Console.WriteLine("A garrafa está vazia");
+                }
+                else
+                {
+                    Console.WriteLine("A garrafa ainda tem água");
                 }
             }
-            else
+            catch
             {
-                Console.WriteLine("Formato inválido");
-                return;
-            }
-
-            garrafa.MostrarInfo();
-
-            if (garrafa.EstaVazia())
-            {
-                Console.WriteLine("A garrafa está vazia");
-            }
-            else
-            {
-                Console.WriteLine("A garrafa ainda tem água");
+                Console.WriteLine("Entrada inválida. Escreve o comando e um número, ex: beber 20");
             }
         }
-        catch                                                 
-        {
-            Console.WriteLine("Entrada inválida. Escreve o comando e um número, ex: beber 20");
-        }
-
-        
     }
 }
